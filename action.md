@@ -8,10 +8,11 @@ cd /usr/bin/
 # 5. Создаем топики
 ./kafka-topics --create --topic vowels --bootstrap-server localhost:9092
 ./kafka-topics --create --topic consonants --bootstrap-server localhost:9092
-# 6. Отправляем сообщения в топики
+# 6. Отправляем сообщения в топик vowels
 ./kafka-console-producer --topic vowels --bootstrap-server localhost:9092
 >test 1
 >hello word
+# 7. Отправляем сообщения в топик consonants
 ./kafka-console-producer --topic consonants --bootstrap-server localhost:9092
 > test2
 
