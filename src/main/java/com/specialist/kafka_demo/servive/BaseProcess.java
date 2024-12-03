@@ -1,12 +1,14 @@
 package com.specialist.kafka_demo.servive;
 
 import com.specialist.kafka_demo.model.Symbol;
+import com.specialist.kafka_demo.serializer.SymbolDeserializer;
+import com.specialist.kafka_demo.serializer.SymbolToJson;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -19,48 +21,47 @@ public class BaseProcess {
     private String consonantsTopic;
 
 
-    private final KafkaProducerSymbol kafkaProducerSymbol;
+    private final KafkaProducerService kafkaProducerSymbol;
     private final Generation generation;
+    private final SymbolToJson symbolToJson;
+    private final SymbolDeserializer symbolDeserializer;
 
-    public BaseProcess(KafkaProducerSymbol kafkaProducerSymbol,
-                       Generation generation) {
+    public BaseProcess(KafkaProducerService kafkaProducerSymbol,
+                       Generation generation, SymbolToJson symbolToJson, SymbolDeserializer symbolDeserializer) {
         this.kafkaProducerSymbol = kafkaProducerSymbol;
         this.generation = generation;
 
+        this.symbolToJson = symbolToJson;
+        this.symbolDeserializer = symbolDeserializer;
     }
 
     public void process() {
         log.info("Start process");
         List<Symbol> symbols = generation.generate();
 
-        symbols.forEach(new Consumer<Symbol>() {
-            @Override
-            public void accept(Symbol symbol) {
-                if ("a".equalsIgnoreCase(String.valueOf(symbol.getValue())) ||
-                        "e".equalsIgnoreCase(String.valueOf(symbol.getValue())) ||
-                        "i".equalsIgnoreCase(String.valueOf(symbol.getValue())) ||
-                        "o".equalsIgnoreCase(String.valueOf(symbol.getValue())) ||
-                        "u".equalsIgnoreCase(String.valueOf(symbol.getValue())) ||
-                        "j".equalsIgnoreCase(String.valueOf(symbol.getValue())) ||
-                        "y".equalsIgnoreCase(String.valueOf(symbol.getValue()))) {
-                    kafkaProducerSymbol.sendMessage(symbol, vowelsTopic);
-                } else {
-                    kafkaProducerSymbol.sendMessage(symbol, consonantsTopic);
-                }
-
+        for (Symbol symbol : symbols) {
+            switch (symbol.getValue()) {
+                case 'a', 'e', 'i', 'o', 'u', 'j', 'y':
+                    kafkaProducerSymbol.sendMessage(vowelsTopic, symbolToJson.getJson(symbol));
+                    break;
+                default:
+                    kafkaProducerSymbol.sendMessage(consonantsTopic, symbolToJson.getJson(symbol));
+                    break;
             }
-        });
-
-//        for (Symbol symbol : symbols) {
-//            switch (symbol.getValue()) {
-//                case 'a', 'e', 'i', 'o', 'u', 'j', 'y':
-//                    kafkaProducerSymbol.sendMessage(symbol, vowelsTopic);
-//                    break;
-//                default:
-//                    kafkaProducerSymbol.sendMessage(symbol, consonantsTopic);
-//                    break;
-//            }
-//        }
+        }
         log.info("End process");
+    }
+
+    /**
+     * Обработка сообщения
+     * @param message - сообщение
+     */
+    public void process(String message, String source) {
+        Optional<Symbol> symbol = symbolDeserializer.getSymbol(message);
+        if (symbol.isPresent()) {
+            log.info("Received: Source:{}, Symbol:{}", source, symbol.get());
+        } else {
+            log.error("Symbol is null");
+        }
     }
 }

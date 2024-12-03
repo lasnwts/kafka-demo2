@@ -7,10 +7,11 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
 
+/** Конфигурация не используется в этом проекте */
 
 public class KafkaConfig {
 
-    private static final String BOOTSTRAP_SERVERS = "localhost:9092";
+    private static final String BOOTSTRAP_SERVERS = "127.0.0.1:9093";
 
     private KafkaConfig() { }
 

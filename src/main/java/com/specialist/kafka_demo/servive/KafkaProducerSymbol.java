@@ -8,18 +8,19 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.stereotype.Service;
 
 /**
- * Класс для отправки сообщений в Kafka
+ * Класс для отправки сообщений в Kafka, без использования KafkaTemplate
  */
 
 @Log4j2
 @Service
 public class KafkaProducerSymbol {
+
     /**
-     * Отправка сообщений
+     * Отправка сообщений без использования KafkaTemplate
      * @param message - тело сообщения
      * @param topic - топик
      */
-    public void sendMessage(Symbol message, String topic) {
+    public void sendMessageWithoutTemplate(Symbol message, String topic) {
         log.info("Send message: {}", message);
         try (KafkaProducer<String, Symbol> kafkaProducer = new KafkaProducer<>(KafkaConfig.getProducerConfig())) {
             ProducerRecord<String, Symbol> producerRecord = new ProducerRecord<>(topic, message);
@@ -30,4 +31,5 @@ public class KafkaProducerSymbol {
             log.error("Ошибка:{} при отправке сообщения:{} в топик:{} Kafka", e.getMessage(), message, topic);
         }
     }
+
 }
