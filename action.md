@@ -1,3 +1,5 @@
+# GIT: 
+https://github.com/lasnwts/kafka-demo/blob/master/action.md
 # 1. Запуск из каталога lesson1 docker-compous
 # 2. Подключение к сеансу броека
 docker exec -ti kafka /usr/bin/bash
