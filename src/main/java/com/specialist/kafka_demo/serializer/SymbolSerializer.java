@@ -8,6 +8,10 @@ import org.apache.kafka.common.serialization.Serializer;
 
 import java.util.Map;
 
+/**
+ * Старый вариант сериализация, не используется
+ */
+
 @Log4j2
 public class SymbolSerializer implements Serializer<Symbol> {
 
