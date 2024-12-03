@@ -1,0 +1,7 @@
+2024-12-03 14:04:58.766  INFO 6820 --- [restartedMain] c.s.kafka_demo.KafkaDemoApplication      : Starting KafkaDemoApplication using Java 17.0.2 on DESKTOP-CPN5MNN with PID 6820 (C:\AppServer\Project\Specialist\kafka-demo\target\classes started by Alex in C:\AppServer\Project\Specialist\kafka-demo)
+2024-12-03 14:04:58.774  INFO 6820 --- [restartedMain] c.s.kafka_demo.KafkaDemoApplication      : No active profile set, falling back to 1 default profile: "default"
+2024-12-03 14:04:58.863  INFO 6820 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-03 14:04:59.868  INFO 6820 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-03 14:04:59.898  INFO 6820 --- [restartedMain] c.s.kafka_demo.KafkaDemoApplication      : Started KafkaDemoApplication in 2.055 seconds (JVM running for 3.17)
+2024-12-03 14:04:59.903  INFO 6820 --- [restartedMain] c.s.kafka_demo.KafkaDemoApplication      : ----------------------------------------------------------------------------------------------------------------------------------------------------------
+2024-12-03 14:04:59.904  INFO 6820 --- [restartedMain] c.s.kafka_demo.KafkaDemoApplication      : | Name service                 : Kafka-demo. Specialist 02.12.2024
